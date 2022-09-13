@@ -26,26 +26,28 @@ void jogodaforca_1(char *host){
 		exit (1);
 	}
 #endif	/* DEBUG */
-
+	strcpy(result_1->strAster, "");
 	
 	result_1 = menuprincipal_1(&menuprincipal_1_arg, clnt);
 	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	result_1 = aster_1(&aster_1_arg, clnt);
+	strcpy(result_1->strAster, aster_1(&result_1, clnt)->strAster);
+	/*result_1 = aster_1(&aster_1_arg, clnt);
 	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
-	}
-	result_1 = checkletra_1(&checkletra_1_arg, clnt);
+	}*/
+	/*result_1 = checkletra_1(&checkletra_1_arg, clnt);
 	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
-	}
-	result_1 = jogo_1(&jogo_1_arg, clnt);
+	}*/
+	
+	/*result_1 = jogo_1(&jogo_1_arg, clnt);
 	if (result_1 == (bool_t *) NULL) {
 		clnt_perror (clnt, "call failed");
-	}
+	}*/
 
-	printf("\n%s\n", result_1->palavraChave);
+	printf("\n%s\n%s\n", result_1->palavraChave, result_1->strAster);
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */

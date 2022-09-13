@@ -7,6 +7,7 @@
 #define _JOGODAFORCA_H_RPCGEN
 
 #include <rpc/rpc.h>
+#include <stdbool.h>
 
 
 #ifdef __cplusplus
@@ -18,8 +19,8 @@ struct mensagem {
 	char palavraChave[46];
 	char tentativa;
 	char strAster[46];
-	bool_t acertou;
-	bool_t conclusao;
+	bool acertou;
+	bool conclusao;
 };
 typedef struct mensagem mensagem;
 

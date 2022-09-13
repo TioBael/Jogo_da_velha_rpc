@@ -5,6 +5,7 @@
  */
 
 #include "jogoDaForca.h"
+#include <stdbool.h>
 
 mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem  result;
@@ -16,22 +17,18 @@ mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
         printf("\nTem certeza que a palavra para ser adivinhada eh: %s ?\n1 - sim\n0 - nao\n", result.palavraChave);
 		fflush(stdin);
         scanf("%d", &i);
-        
-		/*if(i==1){
-            system("clear");
-        }*/
     }
 	
-
 	return &result;
 }
 
 mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
-	static mensagem  result;
+	static mensagem result;
+	strcpy(result.strAster, "");
 
-	/*
-	 * insert server code here
-	 */
+    for(int i=0; argp->palavraChave[i]!='\0';i++){
+        result.strAster[i] = '*';
+    }
 
 	return &result;
 }
@@ -39,19 +36,23 @@ mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
 mensagem * checkletra_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem  result;
 
-	/*
-	 * insert server code here
-	 */
+    for(int i=0; argp->palavraChave[i]!='\0';i++){
+        if(argp->tentativa == argp->palavraChave[i]){
+            result.strAster[i] = argp->tentativa;
+            result.acertou = true;
+        }
+    }
 
 	return &result;
 }
 
 bool_t * jogo_1_svc(mensagem *argp, struct svc_req *rqstp){
-	static bool_t  result;
+	static bool result;
 
-	/*
-	 * insert server code here
-	 */
+	if( strcmp(argp->strAster,argp->palavraChave) == 0 )
+    	result = true;
+	else
+    	result = false;
 
 	return &result;
 }
