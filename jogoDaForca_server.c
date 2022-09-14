@@ -5,10 +5,19 @@
  */
 
 #include "jogoDaForca.h"
+#include <stdio.h>
 
-mensagem *
-menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp)
-{
+mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
+	static mensagem  result;
+
+	puts("Teste de comunicação, server side");
+
+	strcpy(result.palavraChave, "Teste de comunicação, client side");
+
+	return &result;
+}
+
+mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem  result;
 
 	/*
@@ -18,9 +27,7 @@ menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-mensagem *
-aster_1_svc(mensagem *argp, struct svc_req *rqstp)
-{
+mensagem * checkletra_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem  result;
 
 	/*
@@ -30,21 +37,7 @@ aster_1_svc(mensagem *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-mensagem *
-checkletra_1_svc(mensagem *argp, struct svc_req *rqstp)
-{
-	static mensagem  result;
-
-	/*
-	 * insert server code here
-	 */
-
-	return &result;
-}
-
-int *
-jogo_1_svc(mensagem *argp, struct svc_req *rqstp)
-{
+int * jogo_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static int  result;
 
 	/*

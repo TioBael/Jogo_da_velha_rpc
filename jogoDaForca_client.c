@@ -7,17 +7,13 @@
 #include "jogoDaForca.h"
 
 
-void
-jogodaforca_1(char *host)
-{
+void jogodaforca_1(char *host){
+	
 	CLIENT *clnt;
 	mensagem  *result_1;
 	mensagem  menuprincipal_1_arg;
-	mensagem  *result_2;
 	mensagem  aster_1_arg;
-	mensagem  *result_3;
 	mensagem  checkletra_1_arg;
-	int  *result_4;
 	mensagem  jogo_1_arg;
 
 #ifndef	DEBUG
@@ -29,30 +25,31 @@ jogodaforca_1(char *host)
 #endif	/* DEBUG */
 
 	result_1 = menuprincipal_1(&menuprincipal_1_arg, clnt);
+	printf("\n%s\n", &result_1->palavraChave);
 	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	result_2 = aster_1(&aster_1_arg, clnt);
-	if (result_2 == (mensagem *) NULL) {
+	result_1 = aster_1(&aster_1_arg, clnt);
+	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	result_3 = checkletra_1(&checkletra_1_arg, clnt);
-	if (result_3 == (mensagem *) NULL) {
+	result_1 = checkletra_1(&checkletra_1_arg, clnt);
+	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	result_4 = jogo_1(&jogo_1_arg, clnt);
-	if (result_4 == (int *) NULL) {
+	result_1->conclusao = (int) jogo_1(&jogo_1_arg, clnt);
+	if (result_1 == NULL) {
 		clnt_perror (clnt, "call failed");
 	}
+
+	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
 }
 
 
-int
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]){
 	char *host;
 
 	if (argc < 2) {
