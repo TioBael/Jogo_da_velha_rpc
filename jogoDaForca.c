@@ -8,8 +8,8 @@ typedef struct{
     char palavraChave[46];
     char tentativa;
     char strAster[46];
-    bool acertou;
-    bool conclusao;
+    int acertou;
+    int conclusao;
 } mensagem;
 
 /*
@@ -22,7 +22,7 @@ int MenuPrincipal(mensagem msm); // necessario
 int Dificuldade(int op, int qtdLetra); //desnecessario
 mensagem Aster(mensagem msm); //necessario
 mensagem checkLetra(mensagem msm); //necessario
-bool Jogo(mensagem msm); //necessario
+int Jogo(mensagem msm); //necessario
 int main();
 
 /*
@@ -45,7 +45,7 @@ int MenuPrincipal(mensagem msm){
     for(op;op > 3 || op < 1; ){
         printf("\nQual a dificuldade do jogo?\n1 - Facil\n2 - Medio\n3 - Dificil\n");
         fflush(stdout);
-        scanf("%d", &op);
+        scanf(" %d", &op);
 
         if(op > 3 || op < 1)
             printf("\nOpcao Invalida, tente novamente!");
@@ -104,7 +104,7 @@ mensagem checkLetra(mensagem msm) {
     for(int i=0; msm.palavraChave[i]!='\0';i++){
         if(msm.tentativa == msm.palavraChave[i]){
             msm.strAster[i] = msm.tentativa;
-            msm.acertou = true;
+            msm.acertou = 0;
         }
     }
     return msm;
@@ -114,11 +114,11 @@ mensagem checkLetra(mensagem msm) {
     VERIFICADOR DE FIM DE JOGO, SE A TENTATIVA DO JOGADOR COINCIDIR COM A PALAVRA CHAVE, ELE GANHARÁ
     CASO CONTRARIO, ELE PERDERÁ
 */
-bool Jogo(mensagem msm){
+int Jogo(mensagem msm){
     if( strcmp(msm.strAster,msm.palavraChave) == 0 )
-        return true;
+        return 0;
 
-    return false;
+    return 1;
 }
 
 int main(){
@@ -131,7 +131,7 @@ int main(){
         fflush(stdin);
         scanf("%s", msm.palavraChave);
         printf("\nTem certeza que a palavra para ser adivinhada eh: %s ?\n1 - sim\n0 - nao\n", msm.palavraChave);
-        scanf("%d", &i);
+        scanf(" %d", &i);
         if(i==1){
             system("clear");
         }
@@ -147,39 +147,39 @@ int main(){
     system("clear");
 
     msm = Aster(msm);
-    msm.conclusao = false;
+    msm.conclusao = 1;
 
     printf("---");
     printf("\n\nTamanho da Palavra: %d letras\n\n", strlen(msm.strAster));
     printf("---");
-    msm.acertou = false;
+    msm.acertou = 1;
 
     /*
         O JOGO PROPRIAMENTE DITO, ELE FARÁ UM LOOPING BASEADO NA DIFICULDADE SELECIONADA.
         E SE ELE RECEBER FALSO NA CONCLUSÃO, O LOOPING CONTINUARÁ.
     */
     for(int i=0;i<dificuldade;i++){
-        msm.acertou = false;
+        msm.acertou = 1;
         printf("\nVoce tem: %d tentativa(s)!", dificuldade-i);
         printf("\nDigite uma letra: ");
         fflush(stdin);
         scanf(" %c", &msm.tentativa);
 
-        if(msm.conclusao == false){
+        if(msm.conclusao == 1){
             msm = checkLetra(msm);
             printf("\n%s", msm.strAster);
             printf("\n\n---");
-            if(msm.acertou == true)
+            if(msm.acertou == 0)
                 i--;
         }
         msm.conclusao = Jogo(msm);
         
-        if(msm.conclusao == true){
+        if(msm.conclusao == 0){
             Ganhou(msm);
             break;
         }
     }
 
-    if(msm.conclusao == false)
+    if(msm.conclusao == 1)
         Perdeu(msm);
 }
