@@ -5,11 +5,11 @@
 #include <math.h>
 
 typedef struct{
+    int acertou;
+    int conclusao;
     char palavraChave[46];
     char tentativa;
     char strAster[46];
-    int acertou;
-    int conclusao;
 } mensagem;
 
 /*
@@ -50,7 +50,7 @@ int MenuPrincipal(mensagem msm){
         if(op > 3 || op < 1)
             printf("\nOpcao Invalida, tente novamente!");
     }
-    qtdLetra = strlen(msm.palavraChave);
+    qtdLetra = (int) strlen(msm.palavraChave);
     
     return Dificuldade(op, qtdLetra);
 }
@@ -89,9 +89,12 @@ int Dificuldade(int op, int qtdLetra){
     CRIAÇÃO DA STRING DE ASTERISCOS, NO TAMANHO DA PALAVRA CHAVE
 */
 mensagem Aster(mensagem msm){
-    for(int i=0; msm.palavraChave[i]!='\0';i++){
+    int i=0;
+    int temp = (int) strlen(msm.palavraChave);
+    for(i; i<temp;i++){
         msm.strAster[i] = '*';
     }
+    msm.strAster[i] = '\0';
     return msm;
 }
 
