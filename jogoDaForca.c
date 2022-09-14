@@ -7,6 +7,7 @@
 typedef struct{
     int acertou;
     int conclusao;
+    int dificuldade;
     char palavraChave[46];
     char tentativa;
     char strAster[46];
@@ -141,6 +142,7 @@ int main(){
     }
 
     int dificuldade = MenuPrincipal(msm);
+    msm.dificuldade = dificuldade;
 
     /*
         LIMPAR A TELA E FAZER COM QUE O CONSOLE PARE E ESPERE O USUARIO PRESSIONAR QUALQUER COISA,

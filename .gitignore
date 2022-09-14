@@ -1,0 +1,6 @@
+#Objects
+*.o
+
+#Executaveis
+jogoDaForca_client
+jogoDaForca_server
