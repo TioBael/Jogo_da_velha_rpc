@@ -98,7 +98,6 @@ void jogodaforca_1(char *host){
 		clnt_perror (clnt, "call failed");
 	}
 	
-	printf("\nTeste antes do for");
 	for(int i=0;i<result_1->dificuldade;i++){
         result_1->acertou = 1;
         printf("\nVoce tem: %d tentativa(s)!", result_1->dificuldade-i);
