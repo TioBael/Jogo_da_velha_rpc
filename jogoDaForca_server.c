@@ -8,41 +8,54 @@
 #include <stdio.h>
 
 mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
-	static mensagem  result;
+	static mensagem result;
 
-	puts("Teste de comunicação, server side");
-
-	strcpy(result.palavraChave, "Teste de comunicação, client side");
+    for(int i=0; i!=1; ){
+        printf("\nDigite a palavra para ser adivinhada: ");
+        fflush(stdin);
+        scanf("%s", result.palavraChave);
+        printf("\nTem certeza que a palavra para ser adivinhada eh: %s ?\n1 - sim\n0 - nao\n", result.palavraChave);
+        scanf(" %d", &i);
+    }
 
 	return &result;
 }
 
 mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
-	static mensagem  result;
+	static mensagem result;
 
-	/*
-	 * insert server code here
-	 */
+	int i=0;
+    int temp = (int) strlen(argp->palavraChave);
+    for(i; i<temp;i++){
+        argp->strAster[i] = '*';
+    }
+    argp->strAster[i] = '\0';
 
-	return &result;
+	printf("\n%d\n", temp);
+	puts(argp->strAster);
+	return &argp;
 }
 
 mensagem * checkletra_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem  result;
+	
+	for(int i=0; argp->palavraChave[i]!='\0';i++){
+        if(argp->tentativa == argp->palavraChave[i]){
+            argp->strAster[i] = argp->tentativa;
+            argp->acertou = 0;
+        }
+    }
 
-	/*
-	 * insert server code here
-	 */
-
-	return &result;
+	return &argp;
 }
 
 int * jogo_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static int  result;
 
-	/*
-	 * insert server code here
-	 */
+    if( strcmp(argp->strAster,argp->palavraChave) == 0 )
+        argp->conclusao = 0;
+    else
+		argp->conclusao = 1;
 
-	return &result;
+	return &argp;
 }

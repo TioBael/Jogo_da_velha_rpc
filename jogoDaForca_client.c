@@ -5,7 +5,60 @@
  */
 
 #include "jogoDaForca.h"
+#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+/*
+    POSSIVEL RESULTADO DO JOGO
+*/
+void Perdeu(mensagem * msm){
+    printf("\nUma pena, voce perdeu!\nA palavra chave era: %s\n", msm->palavraChave);
+}
+/*
+    POSSIVEL RESULTADO DO JOGO
+*/
+void Ganhou(mensagem * msm){
+    printf("\nParabens, voce acertou!\nA palavra era: %s\n", msm->palavraChave);
+}
+
+int MenuPrincipal(mensagem * msm){
+    int op=0, qtdLetra;
+    for(op;op > 3 || op < 1; ){
+        printf("\nQual a dificuldade do jogo?\n1 - Facil\n2 - Medio\n3 - Dificil\n");
+        fflush(stdout);
+        scanf(" %d", &op);
+
+        if(op > 3 || op < 1)
+            printf("\nOpcao Invalida, tente novamente!");
+    }
+    qtdLetra = (int) strlen(msm->palavraChave);
+    
+    return Dificuldade(op, qtdLetra);
+}
+
+int Dificuldade(int op, int qtdLetra){
+    int modDificuldade=0;
+    switch(op){
+        case 1:
+            modDificuldade = ceilf(qtdLetra*3.0/4);
+            printf("\nDificuldade selecionada: Facil\nVoce tera %d tentativas\nPressione Enter para iniciar...\n", modDificuldade);
+            return modDificuldade;
+            break;
+        case 2:
+            modDificuldade = ceilf(qtdLetra*2.0/4);
+            printf("\nDificuldade selecionada: Medio\nVoce tera %d tentativas\nPressione Enter para iniciar...\n", modDificuldade);
+            return modDificuldade;
+            break;
+        case 3:
+            modDificuldade = ceilf(qtdLetra/4.0);
+            printf("\nDificuldade selecionada: Dificil\nVoce tera %d tentativas\nPressione Enter para iniciar...\n", modDificuldade);
+            return modDificuldade;
+            break;
+        default:
+            break;
+    }
+}
 
 void jogodaforca_1(char *host){
 	
@@ -24,24 +77,77 @@ void jogodaforca_1(char *host){
 	}
 #endif	/* DEBUG */
 
-	result_1 = menuprincipal_1(&menuprincipal_1_arg, clnt);
-	printf("\n%s\n", &result_1->palavraChave);
+	result_1 = menuprincipal_1(&result_1, clnt);
 	if (result_1 == (mensagem *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_1 = aster_1(&aster_1_arg, clnt);
-	if (result_1 == (mensagem *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_1 = checkletra_1(&checkletra_1_arg, clnt);
-	if (result_1 == (mensagem *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_1->conclusao = (int) jogo_1(&jogo_1_arg, clnt);
-	if (result_1 == NULL) {
 		clnt_perror (clnt, "call failed");
 	}
 
+	result_1->dificuldade = MenuPrincipal(result_1);
+	
+
+	system("read dummy");
+    system("clear");
+
+	result_1 = aster_1(&result_1, clnt);
+	result_1->conclusao = 1;
+
+	if (result_1 == (mensagem *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+	
+	printf("\nTeste antes do for");
+	for(int i=0;i<result_1->dificuldade;i++){
+        result_1->acertou = 1;
+        printf("\nVoce tem: %d tentativa(s)!", result_1->dificuldade-i);
+        printf("\nDigite uma letra: ");
+        fflush(stdin);
+        scanf(" %c", &result_1->tentativa);
+
+        if(result_1->conclusao == 1){
+            result_1 = checkletra_1(&result_1, clnt);
+			
+			if (result_1 == (mensagem *) NULL) {
+				clnt_perror (clnt, "call failed");
+			}
+
+            printf("\n%s", result_1->strAster);
+            printf("\n\n---");
+            if(result_1->acertou == 0)
+                i--;
+        }
+        result_1->conclusao = (int) jogo_1(&result_1, clnt);
+		if (result_1 == (mensagem *) NULL) {
+			clnt_perror (clnt, "call failed");
+		}
+        
+        if(result_1->conclusao == 0){
+            Ganhou(result_1);
+            break;
+        }
+    }
+
+
+
+
+
+	/*
+	result_1 = aster_1(&result_1, clnt);
+	if (result_1 == (mensagem *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+
+	result_1 = checkletra_1(&result_1, clnt);
+	if (result_1 == (mensagem *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+
+	result_1->conclusao = (int) jogo_1(&result_1, clnt);
+	if (result_1 == NULL) {
+		clnt_perror (clnt, "call failed");
+	}*/
+
+	if(result_1->conclusao == 1)
+        Perdeu(result_1);
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
