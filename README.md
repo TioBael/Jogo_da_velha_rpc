@@ -34,6 +34,8 @@ Caso deseje alterar algo no codigo, foque sua atenção nos três codigos suprac
 
 Para compliar, basta dar o comando `Make` na pasta com os arquivos, o Makefile é quase igual ao fornecido pelo rpcgen, com apenas uma mudança necessaria devido ao uso da biblioteca `math.h`, onde no sistemas Linux, se torna necessario o uso da flag `-lm` como argumento para o GCC.
 
+Para executar, rode primeiro o servidor `./jogoDaForca_server`, e num console separado, rode o cliente `./jogoDaForca_client [endereço_de_ip]`.
+
 
 ## Particularidades:
 
