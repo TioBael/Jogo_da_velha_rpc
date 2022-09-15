@@ -82,8 +82,12 @@ void jogodaforca_1(char *host){
 		clnt_perror (clnt, "call failed");
 	}
 
+    strcpy(result_1->strAster, "");
+
 	result_1->dificuldade = MenuPrincipal(result_1);
+    puts(result_1->palavraChave);
 	
+
 	system("read dummy");
     system("clear");
 

@@ -23,16 +23,17 @@ mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
 
 mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem result;
-
-	int i=0;
+    
+    int i=0;
     int temp = (int) strlen(argp->palavraChave);
     for(i; i<temp;i++){
         argp->strAster[i] = '*';
     }
     argp->strAster[i] = '\0';
 
-	printf("\n%d\n", temp);
-	puts(argp->strAster);
+    printf("\nDEBUG strAster: %s", argp->strAster);
+    printf("\nDEBUG temp: %d", temp);
+    
 	return &argp;
 }
 
