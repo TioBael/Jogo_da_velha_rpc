@@ -13,7 +13,7 @@ mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
     for(int i=0; i!=1; ){
         printf("\nDigite a palavra para ser adivinhada: ");
         fflush(stdin);
-        scanf("%s", result.palavraChave);
+        scanf(" %s", result.palavraChave);
         printf("\nTem certeza que a palavra para ser adivinhada eh: %s ?\n1 - sim\n0 - nao\n", result.palavraChave);
         scanf(" %d", &i);
     }
@@ -37,29 +37,31 @@ mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
     printf("\nDEBUG strAster: %s", argp->strAster);
     printf("\nDEBUG temp: %d", temp);
     
-	return &argp;
+	return argp;
 }
 
 mensagem * checkletra_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem  result;
-	
+    printf("\nDEBUG - DENTRO DO CHECKLETRA");
+    
 	for(int i=0; argp->palavraChave[i]!='\0';i++){
         if(argp->tentativa == argp->palavraChave[i]){
             argp->strAster[i] = argp->tentativa;
             argp->acertou = 0;
         }
     }
-
-	return &argp;
+    printf("\nDEBUG - SAI DO FOR DO CHECKLETRA");
+	return argp;
 }
 
 int * jogo_1_svc(mensagem *argp, struct svc_req *rqstp){
-	static int  result;
+	static int result;
+    printf("\nDEBUG - DENTRO DO JOGO 1");
 
     if( strcmp(argp->strAster,argp->palavraChave) == 0 )
         argp->conclusao = 0;
     else
 		argp->conclusao = 1;
 
-	return &argp;
+	return argp->conclusao;
 }

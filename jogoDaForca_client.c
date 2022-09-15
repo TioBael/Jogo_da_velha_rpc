@@ -94,6 +94,8 @@ void jogodaforca_1(char *host){
 	result_1 = aster_1(result_1, clnt);
 	result_1->conclusao = 1;
 
+    printf("\nDEBUG - Antes do looping");
+
 	if (result_1 == (mensagem *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
@@ -106,7 +108,7 @@ void jogodaforca_1(char *host){
         scanf(" %c", &result_1->tentativa);
 
         if(result_1->conclusao == 1){
-            result_1 = checkletra_1(&result_1, clnt);
+            result_1 = checkletra_1(result_1, clnt);
 			
 			if (result_1 == (mensagem *) NULL) {
 				clnt_perror (clnt, "call failed");
@@ -117,7 +119,10 @@ void jogodaforca_1(char *host){
             if(result_1->acertou == 0)
                 i--;
         }
-        result_1->conclusao = (int) jogo_1(&result_1, clnt);
+
+        printf("\nAntes do * temp");
+        int * temp = jogo_1(result_1, clnt);
+        result_1->conclusao = &temp;
 		if (result_1 == (mensagem *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}
