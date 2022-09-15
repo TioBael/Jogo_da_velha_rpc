@@ -84,7 +84,6 @@ void jogodaforca_1(char *host){
 
 	result_1->dificuldade = MenuPrincipal(result_1);
 	
-
 	system("read dummy");
     system("clear");
 
@@ -126,9 +125,8 @@ void jogodaforca_1(char *host){
         }
     }
 
-
-
-
+	if(result_1->conclusao == 1)
+        Perdeu(result_1);
 
 	/*
 	result_1 = aster_1(&result_1, clnt);
@@ -145,9 +143,6 @@ void jogodaforca_1(char *host){
 	if (result_1 == NULL) {
 		clnt_perror (clnt, "call failed");
 	}*/
-
-	if(result_1->conclusao == 1)
-        Perdeu(result_1);
 	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
