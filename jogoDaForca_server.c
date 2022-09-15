@@ -23,6 +23,9 @@ mensagem * menuprincipal_1_svc(mensagem *argp, struct svc_req *rqstp){
 
 mensagem * aster_1_svc(mensagem *argp, struct svc_req *rqstp){
 	static mensagem result;
+
+    printf("\nDEBUG - palavraChave: %s", argp->palavraChave);
+
     
     int i=0;
     int temp = (int) strlen(argp->palavraChave);

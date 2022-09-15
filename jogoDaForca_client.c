@@ -91,7 +91,7 @@ void jogodaforca_1(char *host){
 	system("read dummy");
     system("clear");
 
-	result_1 = aster_1(&result_1, clnt);
+	result_1 = aster_1(result_1, clnt);
 	result_1->conclusao = 1;
 
 	if (result_1 == (mensagem *) NULL) {
