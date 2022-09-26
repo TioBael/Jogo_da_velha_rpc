@@ -6,8 +6,6 @@
 
 #include "jogoDaForca.h"
 #include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 /*
     POSSIVEL RESULTADO DO JOGO
@@ -60,14 +58,45 @@ int Dificuldade(int op, int qtdLetra){
     }
 }
 
+mensagem * aster(mensagem * argp){
+
+    int i=0;
+    int temp = (int) strlen(argp->palavraChave);
+    for(i; i<temp;i++){
+        argp->strAster[i] = '*';
+    }
+    //argp->strAster[i] = '\0';
+    
+	return argp;
+}
+
+mensagem * checkletra(mensagem * argp){
+
+	for(int i=0; argp->palavraChave[i]!='\0';i++){
+        if(argp->tentativa == argp->palavraChave[i]){
+            argp->strAster[i] = argp->tentativa;
+            argp->acertou = 0;
+        }
+    }
+
+	return argp;
+}
+
+int jogo(mensagem * argp){
+    if( strcmp(argp->strAster,argp->palavraChave) == 0 )
+        argp->conclusao = 0;
+    else
+		argp->conclusao = 1;
+
+	return argp->conclusao;
+}
+
 void jogodaforca_1(char *host){
-	
 	CLIENT *clnt;
-	mensagem  *result_1;
+	mensagem  * result_1;
 	mensagem  menuprincipal_1_arg;
-	mensagem  aster_1_arg;
-	mensagem  checkletra_1_arg;
-	mensagem  jogo_1_arg;
+	void  *result_2;
+	mensagem  showservidor_1_arg;
 
 #ifndef	DEBUG
 	clnt = clnt_create (host, JogoDaForca, VERSAO, "udp");
@@ -82,24 +111,16 @@ void jogodaforca_1(char *host){
 		clnt_perror (clnt, "call failed");
 	}
 
-    strcpy(result_1->strAster, "");
+	strcpy(result_1->strAster, "");
 
 	result_1->dificuldade = MenuPrincipal(result_1);
-    puts(result_1->palavraChave);
-	
 
 	system("read dummy");
     system("clear");
 
-	result_1 = aster_1(result_1, clnt);
+	result_1 = aster(result_1);
 	result_1->conclusao = 1;
 
-    printf("\nDEBUG - Antes do looping");
-
-	if (result_1 == (mensagem *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	
 	for(int i=0;i<result_1->dificuldade;i++){
         result_1->acertou = 1;
         printf("\nVoce tem: %d tentativa(s)!", result_1->dificuldade-i);
@@ -108,22 +129,16 @@ void jogodaforca_1(char *host){
         scanf(" %c", &result_1->tentativa);
 
         if(result_1->conclusao == 1){
-            result_1 = checkletra_1(result_1, clnt);
-			
-			if (result_1 == (mensagem *) NULL) {
-				clnt_perror (clnt, "call failed");
-			}
+            result_1 = checkletra(result_1);
 
             printf("\n%s", result_1->strAster);
             printf("\n\n---");
             if(result_1->acertou == 0)
                 i--;
         }
+        result_1->conclusao = jogo(result_1);
 
-        printf("\nAntes do * temp");
-        int * temp = jogo_1(result_1, clnt);
-        result_1->conclusao = &temp;
-		if (result_1 == (mensagem *) NULL) {
+		if (result_1 == (void *) NULL) {
 			clnt_perror (clnt, "call failed");
 		}
         
@@ -136,22 +151,6 @@ void jogodaforca_1(char *host){
 	if(result_1->conclusao == 1)
         Perdeu(result_1);
 
-	/*
-	result_1 = aster_1(&result_1, clnt);
-	if (result_1 == (mensagem *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-
-	result_1 = checkletra_1(&result_1, clnt);
-	if (result_1 == (mensagem *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-
-	result_1->conclusao = (int) jogo_1(&result_1, clnt);
-	if (result_1 == NULL) {
-		clnt_perror (clnt, "call failed");
-	}*/
-	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */

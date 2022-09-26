@@ -24,47 +24,17 @@ menuprincipal_1(mensagem *argp, CLIENT *clnt)
 	return (&clnt_res);
 }
 
-mensagem *
-aster_1(mensagem *argp, CLIENT *clnt)
+void *
+showservidor_1(mensagem *argp, CLIENT *clnt)
 {
-	static mensagem clnt_res;
+	static char clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, Aster,
+	if (clnt_call (clnt, showServidor,
 		(xdrproc_t) xdr_mensagem, (caddr_t) argp,
-		(xdrproc_t) xdr_mensagem, (caddr_t) &clnt_res,
+		(xdrproc_t) xdr_void, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}
-	return (&clnt_res);
-}
-
-mensagem *
-checkletra_1(mensagem *argp, CLIENT *clnt)
-{
-	static mensagem clnt_res;
-
-	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, checkLetra,
-		(xdrproc_t) xdr_mensagem, (caddr_t) argp,
-		(xdrproc_t) xdr_mensagem, (caddr_t) &clnt_res,
-		TIMEOUT) != RPC_SUCCESS) {
-		return (NULL);
-	}
-	return (&clnt_res);
-}
-
-int *
-jogo_1(mensagem *argp, CLIENT *clnt)
-{
-	static int clnt_res;
-
-	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, Jogo,
-		(xdrproc_t) xdr_mensagem, (caddr_t) argp,
-		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
-		TIMEOUT) != RPC_SUCCESS) {
-		return (NULL);
-	}
-	return (&clnt_res);
+	return ((void *)&clnt_res);
 }

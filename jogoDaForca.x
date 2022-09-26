@@ -10,8 +10,6 @@ struct mensagem{
 program JogoDaForca{
     version VERSAO{
         mensagem menuPrincipal(mensagem) = 1;
-        mensagem Aster(mensagem) = 2;
-        mensagem checkLetra(mensagem) = 3;
-        int Jogo(mensagem) = 4;
+        void showServidor(mensagem) = 2;
     } = 1;
 } = 23;

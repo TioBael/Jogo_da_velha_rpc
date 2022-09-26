@@ -31,30 +31,18 @@ typedef struct mensagem mensagem;
 #define menuPrincipal 1
 extern  mensagem * menuprincipal_1(mensagem *, CLIENT *);
 extern  mensagem * menuprincipal_1_svc(mensagem *, struct svc_req *);
-#define Aster 2
-extern  mensagem * aster_1(mensagem *, CLIENT *);
-extern  mensagem * aster_1_svc(mensagem *, struct svc_req *);
-#define checkLetra 3
-extern  mensagem * checkletra_1(mensagem *, CLIENT *);
-extern  mensagem * checkletra_1_svc(mensagem *, struct svc_req *);
-#define Jogo 4
-extern  int * jogo_1(mensagem *, CLIENT *);
-extern  int * jogo_1_svc(mensagem *, struct svc_req *);
+#define showServidor 2
+extern  void * showservidor_1(mensagem *, CLIENT *);
+extern  void * showservidor_1_svc(mensagem *, struct svc_req *);
 extern int jogodaforca_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define menuPrincipal 1
 extern  mensagem * menuprincipal_1();
 extern  mensagem * menuprincipal_1_svc();
-#define Aster 2
-extern  mensagem * aster_1();
-extern  mensagem * aster_1_svc();
-#define checkLetra 3
-extern  mensagem * checkletra_1();
-extern  mensagem * checkletra_1_svc();
-#define Jogo 4
-extern  int * jogo_1();
-extern  int * jogo_1_svc();
+#define showServidor 2
+extern  void * showservidor_1();
+extern  void * showservidor_1_svc();
 extern int jogodaforca_1_freeresult ();
 #endif /* K&R C */
 

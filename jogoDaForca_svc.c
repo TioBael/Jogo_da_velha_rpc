@@ -21,9 +21,7 @@ jogodaforca_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
 		mensagem menuprincipal_1_arg;
-		mensagem aster_1_arg;
-		mensagem checkletra_1_arg;
-		mensagem jogo_1_arg;
+		mensagem showservidor_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -40,22 +38,10 @@ jogodaforca_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		local = (char *(*)(char *, struct svc_req *)) menuprincipal_1_svc;
 		break;
 
-	case Aster:
+	case showServidor:
 		_xdr_argument = (xdrproc_t) xdr_mensagem;
-		_xdr_result = (xdrproc_t) xdr_mensagem;
-		local = (char *(*)(char *, struct svc_req *)) aster_1_svc;
-		break;
-
-	case checkLetra:
-		_xdr_argument = (xdrproc_t) xdr_mensagem;
-		_xdr_result = (xdrproc_t) xdr_mensagem;
-		local = (char *(*)(char *, struct svc_req *)) checkletra_1_svc;
-		break;
-
-	case Jogo:
-		_xdr_argument = (xdrproc_t) xdr_mensagem;
-		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) jogo_1_svc;
+		_xdr_result = (xdrproc_t) xdr_void;
+		local = (char *(*)(char *, struct svc_req *)) showservidor_1_svc;
 		break;
 
 	default:
